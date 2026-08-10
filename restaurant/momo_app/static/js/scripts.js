@@ -1,30 +1,16 @@
+  const input = document.querySelector("#phone");
+  const ho=window.intlTelInput(input, {
+        initialCountry: "np",
+    loadUtils: () => import("https://cdn.jsdelivr.net/npm/intl-tel-input@29.2.2/dist/js/utils.js"),
+  });
 
-   // Add this to your JavaScript
-$(document).ready(function() {
-    // Fix navbar toggle on mobile
-    $('.navbar-toggler').on('click', function() {
-        $(this).toggleClass('collapsed');
-    });
-    
-    // Close mobile menu when clicking a link
-    $('.navbar-nav .nav-link').on('click', function() {
-        $('.navbar-collapse').collapse('hide');
-    });
-    
-    // Smooth scroll offset for navbar
-    $('a[href^="#"]').on('click', function(e) {
+  document.getElementById('contactForm').addEventListener('submit',function(e){
+    if (ho.isValidNumber()){
+        input.value=ho.getNumber(); //full country code
+        error_msg.style.display='none';
+    }
+    else{
         e.preventDefault();
-        
-        var target = this.hash;
-        var $target = $(target);
-        
-        // Offset for fixed navbar
-        var offset = 80;
-        
-        $('html, body').stop().animate({
-            'scrollTop': $target.offset().top - offset
-        }, 900, 'swing');
-    });
-});
-
-
+        error_msg.style.display='inline';
+    }
+})

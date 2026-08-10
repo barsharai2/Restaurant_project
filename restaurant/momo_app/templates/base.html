@@ -38,6 +38,9 @@
    {% block css %}
 
    {% endblock css %}
+   <!-- intl-tel-inout-css  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@29.2.2/dist/css/intlTelInput.css">
+
 </head>
 
 <body>
@@ -118,10 +121,10 @@
                      Experience the taste of Himalayas.
                   </p>
                   <div class="social-links">
-                     <a href="#"><i class="fab fa-facebook-f"></i></a>
-                     <a href="#"><i class="fab fa-instagram"></i></a>
-                     <a href="#"><i class="fab fa-tiktok"></i></a>
-                     <a href="#"><i class="fab fa-whatsapp"></i></a>
+                     <a href="https://www.facebook.com/"><i class="fab fa-facebook-f"></i></a>
+                     <a href="https://www.instagram.com/"><i class="fab fa-instagram"></i></a>
+                     <a href="https://www.tiktok.com/"><i class="fab fa-tiktok"></i></a>
+                     <a href="https://www.whatsapp.com/"><i class="fab fa-whatsapp"></i></a>
                   </div>
                </div>
             </div>
@@ -130,11 +133,12 @@
                <div class="footer-widget">
                   <h5>Quick Links</h5>
                   <ul class="footer-links">
-                     <li><a href="#home">Home</a></li>
-                     <li><a href="#about">About Us</a></li>
-                     <li><a href="#menu">Menu</a></li>
-                     <li><a href="#services">Services</a></li>
-                     <li><a href="#contact">Contact</a></li>
+                     <li><a href="{% url 'index' %}">Home</a></li>
+                     <li><a href="{% url 'about' %}">About Us</a></li>
+                     <li><a href="{% url 'menu' %}">Menu</a></li>
+                     <li><a href="{% url 'services' %}">Services</a></li>
+                     <li><a href="{% url 'contact' %}">Contact</a></li>
+                     <li><a href="{% url 'terms' %}">Terms and conditions</a></li>
                   </ul>
                </div>
             </div>
@@ -211,7 +215,10 @@
    <script>
       AOS.init();
    </script>
+   <!-- intl-tel-input js -->
+    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@29.2.2/dist/js/intlTelInput.min.js"></script>
 
+   <script src="{% static 'js/scripts.js' %}"> </script>
 
 </body>
 
