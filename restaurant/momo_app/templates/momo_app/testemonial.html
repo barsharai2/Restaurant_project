@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% load static %}
 {% block css %}
-  <link rel="stylesheet" href="{% static 'css/testeminol.css' %}">
+<link rel="stylesheet" href="{% static 'css/testeminol.css' %}">
 {% endblock css %}
 
 {% block content %}
-  
+
 
 
 <!-- Testimonials Hero -->
@@ -20,7 +20,7 @@
                   <span class="text-orange">M</span>omos Lovers
                </h1>
                <p class="hero-description">
-                  Discover what our customers say about their authentic Nepalese dining experience. 
+                  Discover what our customers say about their authentic Nepalese dining experience.
                   From first-time visitors to regulars, hear their stories.
                </p>
                <div class="hero-stats mt-4">
@@ -49,7 +49,8 @@
          </div>
          <div class="col-lg-6 col-md-12">
             <div class="hero-image">
-               <img src="{% static 'images/testimonials-hero.jpg' %}" alt="Happy customers enjoying momos" class="img-fluid">
+               <img src="{% static 'images/testimonials-hero.jpg' %}" alt="Happy customers enjoying momos"
+                  class="img-fluid">
                <div class="floating-badge">
                   <span>⭐</span>
                   <small>Rated Excellent</small>
@@ -68,7 +69,7 @@
          <h2 class="section-title">What Makes Us <span class="text-orange">D</span>ifferent</h2>
          <p class="section-description">Hear from our most loyal customers</p>
       </div>
-      
+
       <div class="row g-4">
          <!-- Featured Testimonial 1 -->
          <div class="col-lg-4 col-md-6">
@@ -76,6 +77,8 @@
                <div class="testimonial-header">
                   <div class="author-info">
                      <img src="images/customer1.jpg" alt="Sujan Thadarai" class="author-img">
+           
+           
                      <div>
                         <h5>Sujan Thadarai</h5>
                         <span>Regular Customer • 50+ Visits</span>
@@ -90,7 +93,7 @@
                   </div>
                </div>
                <p class="testimonial-text">
-                  "As a Nepali living abroad, finding authentic momos was a challenge until I discovered MOMOS. 
+                  "As a Nepali living abroad, finding authentic momos was a challenge until I discovered MOMOS.
                   The flavors take me right back to Kathmandu. Their buff momos are the best I've had outside Nepal!"
                </p>
                <div class="testimonial-footer">
@@ -99,7 +102,7 @@
                </div>
             </div>
          </div>
-         
+
          <!-- Featured Testimonial 2 -->
          <div class="col-lg-4 col-md-6">
             <div class="testimonial-card featured">
@@ -120,7 +123,7 @@
                   </div>
                </div>
                <p class="testimonial-text">
-                  "I run a food blog and MOMOS has been one of my best discoveries! The chicken fried momos 
+                  "I run a food blog and MOMOS has been one of my best discoveries! The chicken fried momos
                   are absolutely divine. Perfect crispiness and the spicy mayo dip is addictive!"
                </p>
                <div class="testimonial-footer">
@@ -129,7 +132,7 @@
                </div>
             </div>
          </div>
-         
+
          <!-- Featured Testimonial 3 -->
          <div class="col-lg-4 col-md-6">
             <div class="testimonial-card featured">
@@ -150,7 +153,7 @@
                   </div>
                </div>
                <p class="testimonial-text">
-                  "Our family has been coming here every Friday for the past 3 years. The consistency in quality 
+                  "Our family has been coming here every Friday for the past 3 years. The consistency in quality
                   and taste is remarkable. The staff remembers our orders and always makes us feel at home."
                </p>
                <div class="testimonial-footer">
@@ -171,7 +174,8 @@
          <div class="col-lg-6">
             <div class="review-content">
                <h2 class="section-title">Share Your <span class="text-orange">E</span>xperience</h2>
-               <p>We value your feedback! Share your dining experience with us and help others discover authentic Nepalese cuisine.</p>
+               <p>We value your feedback! Share your dining experience with us and help others discover authentic
+                  Nepalese cuisine.</p>
                <div class="review-benefits">
                   <div class="benefit-item">
                      <i class="fas fa-gift"></i>
@@ -191,7 +195,8 @@
          <div class="col-lg-6">
             <div class="review-form">
                <h3 class="mb-4">Leave a Review</h3>
-               <form id="reviewForm">
+               <form method="POST" action="{% url 'testemonials' %}">
+                  {% csrf_token %}
                   <div class="mb-3">
                      <label class="form-label">Your Rating</label>
                      <div class="rating-input">
@@ -204,18 +209,19 @@
                      <input type="hidden" id="ratingValue" name="rating" value="5">
                   </div>
                   <div class="mb-3">
-                     <input type="text" class="form-control" placeholder="Your Name" required>
+                     <input type="text" name="name" class="form-control" placeholder="Your Name" required>
                   </div>
                   <div class="mb-3">
-                     <textarea class="form-control" rows="4" placeholder="Your review..." required></textarea>
+                     <textarea class="form-control" name="message" rows="4" placeholder="Your review..."
+                        required></textarea>
                   </div>
-                  <div class="mb-3">
-                     <select class="form-select">
-                        <option>What did you order?</option>
-                        <option>Buff Steam Momo</option>
-                        <option>Chicken Fried Momo</option>
-                        <option>Vegetarian Momo</option>
-                        <option>Other</option>
+                  <div class="mb-3 ">
+                     <select class="form-select" name="order">
+                        <option value="">What did you order?</option>
+                        {% for i in momos %}
+                        <option value="{{i.name}}">{{i.name}}</option>
+
+                        {% endfor %}
                      </select>
                   </div>
                   <button type="submit" class="btn btn-primary w-100">Submit Review</button>
@@ -230,72 +236,73 @@
 
 <!-- JavaScript for Rating System -->
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-   const stars = document.querySelectorAll('.rating-input i');
-   const ratingInput = document.getElementById('ratingValue');
-   
-   stars.forEach(star => {
-      star.addEventListener('click', function() {
-         const rating = this.getAttribute('data-rating');
-         ratingInput.value = rating;
-         
+   document.addEventListener('DOMContentLoaded', function () {
+      const stars = document.querySelectorAll('.rating-input i');
+      const ratingInput = document.getElementById('ratingValue');
+
+      stars.forEach(star => {
+         star.addEventListener('click', function () {
+            const rating = this.getAttribute('data-rating');
+            ratingInput.value = rating;
+
+            stars.forEach(s => {
+               s.classList.remove('fas');
+               s.classList.add('far');
+            });
+
+            for (let i = 0; i < rating; i++) {
+               stars[i].classList.remove('far');
+               stars[i].classList.add('fas');
+            }
+         });
+
+         star.addEventListener('mouseover', function () {
+            const rating = this.getAttribute('data-rating');
+
+            stars.forEach(s => {
+               s.classList.remove('fas');
+               s.classList.add('far');
+            });
+
+            for (let i = 0; i < rating; i++) {
+               stars[i].classList.remove('far');
+               stars[i].classList.add('fas');
+            }
+         });
+      });
+
+      const form = document.getElementById('reviewForm');
+      form.addEventListener('submit', function (e) {
+         e.preventDefault();
+         alert('Thank you for your review! You will receive 10% off on your next visit.');
+         form.reset();
          stars.forEach(s => {
             s.classList.remove('fas');
             s.classList.add('far');
          });
-         
-         for (let i = 0; i < rating; i++) {
-            stars[i].classList.remove('far');
-            stars[i].classList.add('fas');
-         }
-      });
-      
-      star.addEventListener('mouseover', function() {
-         const rating = this.getAttribute('data-rating');
-         
-         stars.forEach(s => {
-            s.classList.remove('fas');
-            s.classList.add('far');
-         });
-         
-         for (let i = 0; i < rating; i++) {
-            stars[i].classList.remove('far');
-            stars[i].classList.add('fas');
-         }
+         stars[4].classList.remove('far');
+         stars[4].classList.add('fas');
+         ratingInput.value = '5';
       });
    });
-   
-   const form = document.getElementById('reviewForm');
-   form.addEventListener('submit', function(e) {
-      e.preventDefault();
-      alert('Thank you for your review! You will receive 10% off on your next visit.');
-      form.reset();
-      stars.forEach(s => {
-         s.classList.remove('fas');
-         s.classList.add('far');
-      });
-      stars[4].classList.remove('far');
-      stars[4].classList.add('fas');
-      ratingInput.value = '5';
-   });
-});
 </script>
 
 
-   
 
-   <!-- JavaScript Libraries -->
-   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
-   
-   <!-- Custom JavaScript -->
-   <script src="js/main.js"></script>
+
+<!-- JavaScript Libraries -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script src="js/main.js"></script>
 
 
 
 
 </body>
+
 </html>
 {% endblock content %}

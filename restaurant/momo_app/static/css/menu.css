@@ -127,13 +127,13 @@ a{
 }
 
 /* ---------------- HEADERS ---------------- */
-.header1{
-    background-image: url("../static/images/buff_momo.jpeg");
-    background-size: cover;
-}
+/* .header1{ */
+    /* background-image: url("../images/buff_momo.jpeg"); */
+    /* background-size: cover; */
+/* } */
 
 .header2{
-    background-image: url("../static/images/c_momo.jpg");
+    background-image: url("../images/c_momo.jpg");
     background-size: cover;
 }
 
