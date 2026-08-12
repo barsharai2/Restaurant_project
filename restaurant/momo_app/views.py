@@ -47,14 +47,46 @@ def services(request):
 
 def testemonial(request):
     teste=Momo.objects.all()
+    review=Review.objects.all()
     if request.method == "POST":
         name=request.POST['name']
         rating=request.POST['rating']
         order=request.POST.get('order')
         message=request.POST['message']
         Review.objects.create(name=name,rating=rating,order=order,message=message)
+        messages.success(request,f"{name} Your form is successful submitted ")
 
-    context={'momos':teste}
+
+    context={'momos':teste,
+             'review':review}
     return render(request,'momo_app/testemonial.html',context)
 def term(request):
     return render(request,'momo_app/terms.html')
+
+'''
+============================================================================================
+============================================================================================
+                                         AUTH
+============================================================================================
+=============================================================================================
+
+'''
+def login_part(request):
+    return render(request,'auth/login.html')
+
+def register(request):
+    if request.method == 'POST':
+            fname=request.POST['firstname']
+            lname=request.POST['lastname']
+            uname=request.POST['username']
+            email=request.POST['email']
+            password=request.POST['password']
+            password1=request.POST['password1']
+            print("check")
+            if password==password1:
+                pass
+            else:
+                messages.error(request,"password and confirm password is incorrect !!")
+                return redirect('register')
+        
+    return render(request,'auth/register.html')

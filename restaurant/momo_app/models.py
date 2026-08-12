@@ -32,3 +32,5 @@ class Review(models.Model):
     message=models.TextField()
     rating=models.PositiveBigIntegerField()
     order=models.CharField(max_length=250)
+    create_at=models.DateField(auto_now_add=True,null=True)
+    update_at=models.DateField(auto_now=True,null=True)

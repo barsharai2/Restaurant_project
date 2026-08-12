@@ -94,9 +94,13 @@
                </ul>
 
                <!-- Order Now Button -->
-               <a href="https://wa.me/9765550002?text=Hi,%20i%20need%20momo" target="_blank" class="order-btn ms-4">
+               <!-- <a href="https://wa.me/9765550002?text=Hi,%20i%20need%20momo" target="_blank" class="order-btn ms-4">
                   <i class="fas fa-phone-alt me-2"></i> Order Now
-               </a>
+               </a> -->
+               <div>
+                  <a href="{% url 'login_part' %}"><button class="btn btn-danger">Login</button></a>
+                  <a href="{% url 'register' %}"><button class="btn btn-success">register</button></a>
+               </div>
             </div>
          </div>
       </nav>

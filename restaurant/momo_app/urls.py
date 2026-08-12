@@ -10,4 +10,8 @@ urlpatterns = [
     path('contact/',contact, name='contact'),
     path('testemonials/',testemonial, name='testemonials'),
     path('terms/',term, name='terms'),
+
+    #--------------auth part--------------------------
+    path('login/',login_part,name='login_part'),
+    path('register/',register,name='register')
 ]

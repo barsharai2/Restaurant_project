@@ -17,7 +17,7 @@
                <span class="hero-subtitle">Customer Stories</span>
                <h1 class="hero-title">
                   Real Stories from<br>
-                  <span class="text-orange">M</span>omos Lovers
+                  <span class="text-orangere">M</span>omos Lovers
                </h1>
                <p class="hero-description">
                   Discover what our customers say about their authentic Nepalese dining experience.
@@ -72,6 +72,9 @@
 
       <div class="row g-4">
          <!-- Featured Testimonial 1 -->
+          {% for i in review %}
+            
+          
          <div class="col-lg-4 col-md-6">
             <div class="testimonial-card featured">
                <div class="testimonial-header">
@@ -80,7 +83,7 @@
            
            
                      <div>
-                        <h5>Sujan Thadarai</h5>
+                        <h5>{{i.name}}</h5>
                         <span>Regular Customer • 50+ Visits</span>
                      </div>
                   </div>
@@ -93,15 +96,14 @@
                   </div>
                </div>
                <p class="testimonial-text">
-                  "As a Nepali living abroad, finding authentic momos was a challenge until I discovered MOMOS.
-                  The flavors take me right back to Kathmandu. Their buff momos are the best I've had outside Nepal!"
-               </p>
+                  {{i.message}}</p>
                <div class="testimonial-footer">
                   <span class="badge bg-primary">Most Helpful Review</span>
-                  <small>Visited 2 days ago</small>
+                  <small>visited {{i.create_at}}</small>
                </div>
             </div>
          </div>
+         {% endfor %}
 
          <!-- Featured Testimonial 2 -->
          <div class="col-lg-4 col-md-6">
@@ -192,10 +194,17 @@
                </div>
             </div>
          </div>
-         <div class="col-lg-6">
+         <div class="col-lg-6" id="ba">
             <div class="review-form">
                <h3 class="mb-4">Leave a Review</h3>
-               <form method="POST" action="{% url 'testemonials' %}">
+               {% if messages %}
+                  {% for message in messages %}
+                  <div class="alert alert-success" role="alert">
+                     {{message}} </div>
+                  {% endfor %}
+                  {% endif %}
+                  
+               <form method="POST" action="{% url 'testemonials' %}#ba">
                   {% csrf_token %}
                   <div class="mb-3">
                      <label class="form-label">Your Rating</label>
@@ -223,7 +232,7 @@
 
                         {% endfor %}
                      </select>
-                     
+
                   </div>
                   <button type="submit" class="btn btn-primary w-100">Submit Review</button>
                </form>
