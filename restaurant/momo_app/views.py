@@ -2,6 +2,12 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import *
 import qrcode
+import re
+from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
     category=Category.objects.all()
@@ -33,6 +39,7 @@ def contact(request):
 def about(request):
     return render(request,'momo_app/about.html')
 
+@login_required(login_url='login_part')
 def menu(request):
     category=Category.objects.all()
     qr=qrcode.make("http://127.0.0.1:8000/menu/")
@@ -72,6 +79,25 @@ def term(request):
 
 '''
 def login_part(request):
+    if request.method == 'POST':
+        username=request.POST.get("username")
+        password=request.POST.get("password")
+
+        if not User.objects.filter(username=username).exists():
+            messages.error(request,"username is incorrect")
+            return redirect('login_part')
+        
+        user=authenticate(username=username,password=password)
+
+        if user is not None:
+            login(request,user)
+            return redirect("index")
+        else:
+            messages.error(request,"password is incorrect")
+            return redirect("login_part")
+                
+        
+
     return render(request,'auth/login.html')
 
 def register(request):
@@ -84,9 +110,36 @@ def register(request):
             password1=request.POST['password1']
             print("check")
             if password==password1:
-                pass
+                if User.objects.filter(username=uname).exists():
+                    messages.error(request,"username is already exists")
+                    return redirect('register')
+                if User.objects.filter(email=email).exists():
+                    messages.error(request,"email is already exists")
+                    return redirect('register')
+                if not re.search(r"[A-Z]",password):
+                    messages.error(request,"password msut contain at least one uppercase")
+                    return redirect('register')
+                if not re.search(r"\d",password):
+                   messages.error(request,"password msut contain at least one digit")
+                   return redirect('register')
+
+                try:
+                    user=User(first_name=fname,username=uname)
+                    validate_password(password,user=user)
+                    User.objects.create_user(first_name=fname,last_name=lname,username=uname,email=email,password=password)
+                    messages.success(request,"Your account is successfully register")
+                    return redirect ('register')
+                except ValidationError as e:
+                    for i in e.messages:
+                        messages.success(request,i)
+                    return redirect('register')
+                
             else:
                 messages.error(request,"password and confirm password is incorrect !!")
                 return redirect('register')
         
     return render(request,'auth/register.html')
+
+def log_out(request):
+    logout(request)
+    return redirect('login_part')

@@ -13,5 +13,6 @@ urlpatterns = [
 
     #--------------auth part--------------------------
     path('login/',login_part,name='login_part'),
-    path('register/',register,name='register')
+    path('register/',register,name='register'),
+    path('logout/',log_out,name='log_out')
 ]

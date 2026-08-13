@@ -16,12 +16,12 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    
-<!-- JavaScript -->
-<script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
 
-<!-- CSS -->
-<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css"/>
+    <!-- JavaScript -->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/css/alertify.min.css" />
 
     <style>
         .cross {
@@ -104,14 +104,21 @@
 
     {% if messages %}
     {% for message in messages %}
-      <script>
-         alertify.set('notifier','position', 'bottom-right');
- alertify.error('{{message}}');
-      </script>
-    {% endfor %}
-      
+    {% if message.tags == 'success' %}
+    <script>
+        alertify.set('notifier', 'position', 'bottom-right');
+        alertify.success('{{message}}');
+    </script>
+    {% else %}
+    <script>
+        alertify.set('notifier', 'position', 'bottom-right');
+        alertify.error('{{message}}');
+    </script>
     {% endif %}
-   
+    {% endfor %}
+
+    {% endif %}
+
 
 </body>
 
