@@ -8,6 +8,7 @@ from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import PasswordChangeForm
 # Create your views here.
 def index(request):
     category=Category.objects.all()
@@ -25,8 +26,10 @@ def index(request):
         message=request.POST['message']
         Form.objects.create(name=name,email=email,number=number,message=message)
         messages.success(request,f"{name} Your form is successful submitted ")
-
-        return redirect('index')
+        # request.session
+        response= redirect('index')
+        response.set_cookie('name',name,max_age=3600)
+        return response
 
     context={'category':category,
              'momo':momo
@@ -79,9 +82,12 @@ def term(request):
 
 '''
 def login_part(request):
+    name=request.COOKIES.get('name')
     if request.method == 'POST':
+    
         username=request.POST.get("username")
         password=request.POST.get("password")
+        remember_me=request.POST.get("remember_me")
 
         if not User.objects.filter(username=username).exists():
             messages.error(request,"username is incorrect")
@@ -91,14 +97,19 @@ def login_part(request):
 
         if user is not None:
             login(request,user)
-            return redirect("index")
+            if remember_me:
+                request.session.set_expiry(360000)
+            else:
+                request.session.set_expiry(0)
+            next=request.POST.get('next','')
+            return redirect(next if next else "index")
         else:
             messages.error(request,"password is incorrect")
             return redirect("login_part")
                 
         
-
-    return render(request,'auth/login.html')
+    next=request.GET.get('next','')
+    return render(request,'auth/login.html',{'next':next,'name':name})
 
 def register(request):
     if request.method == 'POST':
@@ -143,3 +154,13 @@ def register(request):
 def log_out(request):
     logout(request)
     return redirect('login_part')
+
+@login_required(login_url='login_part')
+def pass_change(request):
+    form=PasswordChangeForm(user=request.user)
+    if request.method =='POST':
+        form=PasswordChangeForm(user=request.user,data=request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login_part')
+    return render(request,'auth/password_change.html',{'form':form})

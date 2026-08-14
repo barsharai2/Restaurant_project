@@ -39,7 +39,7 @@
     <div class="container min-vh-100 d-flex align-items-center py-5">
         <div class="row w-100 bg-white  rounded-4 row_css">
             <div class="col-lg-6 text-white p-5 bg-dark d-flex justify-content-center align-items-center flex-column">
-                <h1>Welcome to our app </h1>
+                <h1>hi, {{name}} ,Welcome to our app </h1>
                 <p>create a user account to get full access.</p>
                 <img src="{% static 'images/momo.png' %}" class="img-fluid rounded-4 shadow"
                     style="max-height: 350px; object-fit: cover;" alt="">
@@ -67,6 +67,11 @@
                             <input required="" name="password" placeholder="" type="password" class="input">
                             <span>Password</span>
                         </label>
+                        <div>
+                            <input type="checkbox" name="remember_me">
+                            <label for="">Remember Me</label>
+                        </div>
+                        <input type="hidden" value="{{next}}" name="next">
                         <button class="submit">Submit</button>
                         <p class="signin">Don't have an account? <a href="{% url 'register' %}">Sign up</a> </p>
                     </form>
