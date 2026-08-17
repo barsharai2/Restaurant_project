@@ -126,8 +126,18 @@ MEDIA_URL='/media/'
 # Email
 # https://docs.djangoproject.com/en/6.1/topics/email/#topic-email-configuration
 
-MAILERS = {
-    'default': {
-        'BACKEND': 'django.core.mail.backends.console.EmailBackend',
-    },
-}
+# MAILERS = {
+#     'default': {
+#         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+#     },
+# }
+PASSWORD_RESET_TIMEOUT=3000
+
+# email setup
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "raibarsha579@gmail.com" #sender's email-id
+EMAIL_HOST_PASSWORD = 'akwq jkfk cjzn nxsb'
+#password associated with above email-id (not the regular password)
