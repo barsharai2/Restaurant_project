@@ -85,6 +85,7 @@
                         <form method="POST" action="{% url 'social:begin' 'facebook' %}">
                         {% csrf_token %}
                         <button type="submit" class= "btn btn-outline-primary" title="continue with facebook"><i class="fa-brands fa-facebook"></i></button>
+                    </form>
                     
                        <form method="POST" action="{% url 'social:begin' 'google-oauth2' %}">
                         {% csrf_token %}
