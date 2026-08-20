@@ -48,7 +48,7 @@ def index(request):
 
     context={'category':category,
              'momo':momo,
-             'review':reviews,
+             'reviews':reviews,
              }
     
     return render(request,'momo_app/index.html',context)  
