@@ -77,7 +77,7 @@ SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')
 SOCIAL_AUTH_GITHUB_SECRET = config('SOCIAL_AUTH_GITHUB_SECRET')
 
 # facebook
-AL_AUTH_FACEBOOK_KEY=config('AL_AUTH_FACEBOOK_KEY') 
+SOCIAL_AUTH_FACEBOOK_KEY=config('AL_AUTH_FACEBOOK_KEY') 
 SOCIAL_AUTH_FACEBOOK_SECRET=config('SOCIAL_AUTH_FACEBOOK_SECRET') 
 # Valid oauth redirect urls =" https://domain.com/social-auth/complete/facebook/"
 
