@@ -8,11 +8,11 @@
     <title>Document</title>
     <link rel="stylesheet" href="{% static 'css/auth/auth.css' %}">
     <!-- font awesome  -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-          <!-- JavaScript -->
+
+    <!-- JavaScript -->
     <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.14.0/build/alertify.min.js"></script>
 
     <!-- CSS -->
@@ -21,17 +21,18 @@
     <!-- bootstrap css link -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-        <style>
-            .cross{
-                position: absolute;
-                top: 0;
-                right: 0;
-            }   
-            .cross:hover{
-                scale: 1.2;
-                color: red;
-            }
-        </style>
+    <style>
+        .cross {
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .cross:hover {
+            scale: 1.2;
+            color: red;
+        }
+    </style>
 
 </head>
 
@@ -67,8 +68,9 @@
                             <input required="" name="password" placeholder="" type="password" class="input">
                             <span>Password</span>
                         </label>
-                        <div >
-                            <a href="{% url 'password_reset' %}" style="float: right; font-style: italic; color: red;">forget password</a>
+                        <div>
+                            <a href="{% url 'password_reset' %}"
+                                style="float: right; font-style: italic; color: red;">forget password</a>
                         </div>
                         <div>
                             <input type="checkbox" name="remember_me">
@@ -78,6 +80,21 @@
                         <button class="submit">Submit</button>
                         <p class="signin">Don't have an account? <a href="{% url 'register' %}">Sign up</a> </p>
                     </form>
+                    <div class="d-flex justify-content-center gap-3">
+
+                        <form method="POST" action="{% url 'social:begin' 'facebook' %}">
+                        {% csrf_token %}
+                        <button type="submit" class= "btn btn-outline-primary" title="continue with facebook"><i class="fa-brands fa-facebook"></i></button>
+                    
+                       <form method="POST" action="{% url 'social:begin' 'google-oauth2' %}">
+                        {% csrf_token %}
+                        <button type="submit" class= "btn btn-outline-danger" title="continue with google"><i class="fa-brands fa-google"></i></button>
+                    </form> 
+                    <form  method="post" action="{% url 'social:begin' 'github' %}">
+                        {% csrf_token %}
+                        <button  class= "btn btn-outline-dark" title="continue with github"><i class="fa-brands fa-github"></i></button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,7 +105,7 @@
         crossorigin="anonymous"></script>
 
 
-         {% if messages %}
+    {% if messages %}
     {% for message in messages %}
     {% if message.tag == 'success' %}
     <script>

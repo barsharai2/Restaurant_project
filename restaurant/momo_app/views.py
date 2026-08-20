@@ -2,6 +2,10 @@ from django.shortcuts import render,redirect
 from django.contrib import messages
 from .models import *
 import qrcode
+from django.template.loader import render_to_string
+from django.core.mail import send_mail,EmailMessage
+from datetime import datetime
+
 import re
 from django.contrib.auth.models import User
 from django.contrib.auth.password_validation import validate_password
@@ -12,6 +16,7 @@ from django.contrib.auth.forms import PasswordChangeForm
 # Create your views here.
 def index(request):
     category=Category.objects.all()
+    reviews = Review.objects.all()
     cateid=request.GET.get('category')
     if cateid=='all':
         momo=Momo.objects.filter(is_available=True)
@@ -25,6 +30,16 @@ def index(request):
         email=request.POST['email']
         message=request.POST['message']
         Form.objects.create(name=name,email=email,number=number,message=message)
+        
+        subject="Thanks for submitting mail"
+        message=render_to_string('momo_app/email-format.html',{'name':name,'date':datetime.now()})
+        from_email="raibarsha579@gmail.com"
+        recipient_list=[email,'raibarsha579@gmail.com']
+        abc=EmailMessage(subject=subject,body=message,from_email=from_email,to=recipient_list)
+        # abc.attach_file('crud_app/static/images/cow.jpg')
+        abc.send(fail_silently=False)
+        send_mail(subject,message=message,from_email=from_email,recipient_list=recipient_list,fail_silently=False)
+
         messages.success(request,f"{name} Your form is successful submitted ")
         # request.session
         response= redirect('index')
@@ -32,8 +47,10 @@ def index(request):
         return response
 
     context={'category':category,
-             'momo':momo
+             'momo':momo,
+             'review':reviews,
              }
+    
     return render(request,'momo_app/index.html',context)  
 
 def contact(request):

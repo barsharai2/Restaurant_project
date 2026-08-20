@@ -40,6 +40,10 @@ INSTALLED_APPS = [
 ]
 EXTERNAL_APP=[
     'momo_app',
+     'allauth',  
+    'allauth.account',
+     'allauth.socialaccount',    
+    'social_django' 
 ]
 INSTALLED_APPS.extend(EXTERNAL_APP)
 MIDDLEWARE = [
@@ -50,7 +54,32 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',     
+    'allauth.account.middleware.AccountMiddleware' ,
 ]
+LOGIN_URL="login_part"
+LOGIN_REDIRECT_URL ="index" 
+LOGOUT_URL="log_out"
+LOGOUT_REDIRECT_URL ="login_part" 
+AUTHENTICATION_BACKENDS = [
+'social_core.backends.google.GoogleOAuth2',     
+'social_core.backends.github.GithubOAuth2',     
+'social_core.backends.facebook.FacebookOAuth2',     
+'django.contrib.auth.backends.ModelBackend',       
+] 
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social' 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = config('SOCIAL_AUTH_GOOGLE_OAUTH2_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = config('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET')
+
+# github
+SOCIAL_AUTH_GITHUB_KEY = config('SOCIAL_AUTH_GITHUB_KEY')  
+SOCIAL_AUTH_GITHUB_SECRET = config('SOCIAL_AUTH_GITHUB_SECRET')
+
+# facebook
+AL_AUTH_FACEBOOK_KEY=config('AL_AUTH_FACEBOOK_KEY') 
+SOCIAL_AUTH_FACEBOOK_SECRET=config('SOCIAL_AUTH_FACEBOOK_SECRET') 
+# Valid oauth redirect urls =" https://domain.com/social-auth/complete/facebook/"
 
 ROOT_URLCONF = 'restaurant.urls'
 
@@ -82,6 +111,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation
@@ -138,6 +168,20 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "raibarsha579@gmail.com" #sender's email-id
-EMAIL_HOST_PASSWORD = 'akwq jkfk cjzn nxsb'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER') #sender's email-id
+EMAIL_HOST_PASSWORD =config('EMAIL_HOST_PASSWORD')
 #password associated with above email-id (not the regular password)
+
+SOCIAL_AUTH_PIPELINE = ( 
+    'social_core.pipeline.social_auth.social_details', 
+    'social_core.pipeline.social_auth.social_uid', 
+    # 🔥 Custom step 
+    'momo_app.pipeline.associate_by_email', 
+    'social_core.pipeline.social_auth.auth_allowed', 
+    'social_core.pipeline.social_auth.social_user', 
+    'social_core.pipeline.user.get_username', 
+    'social_core.pipeline.user.create_user', 
+    'social_core.pipeline.social_auth.associate_user', 
+    'social_core.pipeline.social_auth.load_extra_data', 
+    'social_core.pipeline.user.user_details', 
+)
